@@ -1,0 +1,31 @@
+{
+  "services" : {
+    "app":{
+      "build": {
+          "context": ".",
+          "tags" : ["teststart:4"]
+       },
+       "ports" : [ "4006:3000"],
+       "volumes": [ "/home/aj/projects/docker/secureitems:/app_secureditems" ],
+       "environment": {
+          "MYSQL_HOST":"mysql2",
+          "MYSQL_USER":"root",
+          "MYSQL_PASSWORD_FILE":"/app_secureditems/mysqlpswd2",
+          "MYSQL_DB":"todos2db"
+       }
+    },
+    "mysql2":{
+       "image":"mysql:8.0",
+       "volumes": [ "todo2_mysql_vol:/var/lib/mysql",
+                    "/home/aj/projects/docker/secureitems:/mysql_secrets" 
+                  ],
+       "environment" : {
+          "MYSQL_DATABASE":"todos2db",
+          "MYSQL_ROOT_PASSWORD_FILE":"/mysql_secrets/mysqlpswd2",
+       }
+    }
+  },
+  "volumes":{
+    "todo2_mysql_vol":null
+  }
+}
